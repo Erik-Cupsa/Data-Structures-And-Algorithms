@@ -46,17 +46,18 @@ public class Chaining {
 
     /**Implements the hash function h(k)*/
     public int chain (int key) {
+        //following formula as provided
         int h = (A*key) % power2(w) >> (w-r);
-        //test
         return h;
     }
         
     
     /**Inserts key k into hash table. Returns the number of collisions encountered*/
     public int insertKey(int key){
-        //TODO: implement this and change the return statement
-        return -1;
-
+        int hash = chain(key); //get the hash value
+        int numCollisions = Table.get(hash).size(); //find the size of the linked list to determine number of collisions
+        Table.get(hash).add(key); //add the key to the end of the list
+        return numCollisions;
     }
 
     

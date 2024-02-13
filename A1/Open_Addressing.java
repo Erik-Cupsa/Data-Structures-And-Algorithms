@@ -41,30 +41,56 @@ public class Open_Addressing {
      }
         /**Implements the hash function g(k)*/
         public int probe(int key, int i) {
-            int h = (A*key) % power2(w) >> (w-r);
-            return (h+i) % m;
+            //following provided formula
+            int h = (A*key) % power2(w) >> (w-r); //first calculating h(k)
+            return (h+i) % m; //returning g(k) based off of h(k)
      }
      
      
      /**Inserts key k into hash table. Returns the number of collisions encountered*/
         public int insertKey(int key){
-            //TODO : implement this and change the return statement.
-            return -1;  
+            //initializing variables
+            int numCollisions = 0;
+            int hash = 0;
+            
+            for(int i = 0; i < m; i++){ //looping through array
+                hash = probe(key, i); //calculate probe value
+                if(Table[hash] == -1 || Table[hash] == -2){ //if we found an empty (including previously deleted slot)
+                    Table[hash] = key; //insert key and break out of loop
+                    break;
+                }
+                numCollisions ++; //increment amount of collisions
+            }
+            return numCollisions; //returning collisions
         }
         
         /**Sequentially inserts a list of keys into the HashTable. Outputs total number of collisions */
         public int insertKeyArray (int[] keyArray){
-            int collision = 0;
+            int numCollisions = 0;
             for (int key: keyArray) {
-                collision += insertKey(key);
+                numCollisions += insertKey(key);
             }
-            return collision;
+            return numCollisions;
         }
             
          /**Removes key k from the hash table. Returns the number of collisions encountered*/
         public int removeKey(int key){
-            //TODO: implement this and change the return statement
-                
-            return -1;
+            //initializing variables
+            int numCollisions = 0;
+            int hash = 0;
+            
+            for (int i = 0; i < m; i++){ //looping through array
+                hash = probe(key, i); //calculating probe value
+                if(Table[hash] == key){ // if they key is found
+                    Table[hash] = -2; //delete it by assigning a specific value (chose -2) and break
+                    break;
+                }
+                else if(Table[hash] == -1){ //if an empty space, increment collisions and return
+                    numCollisions++;
+                    break;
+                }
+                numCollisions++;
+            }
+            return numCollisions; //returning collisions
         }
 }
