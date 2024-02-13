@@ -47,6 +47,7 @@ public class Chaining {
     /**Implements the hash function h(k)*/
     public int chain (int key) {
         int h = (A*key) % power2(w) >> (w-r);
+        //test
         return h;
     }
         
