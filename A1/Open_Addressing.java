@@ -1,3 +1,4 @@
+//No collaborators
 import java.io.*;
 import java.util.*;
 
@@ -40,8 +41,8 @@ public class Open_Addressing {
      }
         /**Implements the hash function g(k)*/
         public int probe(int key, int i) {
-            //TODO: implement this function and change the return statement.
-        return -1;
+            int h = (A*key) % power2(w) >> (w-r);
+            return (h+i) % m;
      }
      
      

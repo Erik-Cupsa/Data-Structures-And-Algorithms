@@ -1,3 +1,4 @@
+//No collaborators
 import java.io.*;
 import java.util.*;
 
@@ -45,8 +46,8 @@ public class Chaining {
 
     /**Implements the hash function h(k)*/
     public int chain (int key) {
-        // TODO: implement this and change the return statement
-        return -1;
+        int h = (A*key) % power2(w) >> (w-r);
+        return h;
     }
         
     
