@@ -75,12 +75,79 @@ public class Game {
 		public void setValues(int[][] values) {
 			board_values = values;
 		}
-
 	}
 	
 	public int[][] solver() {
-		//To Do => Please start coding your solution here
+		//creating copy of the board to store solutions
+		int[][] solution = sudoku.getValues();
+		solveSudoku(0, 0, solution);
+		sudoku.setValues(solution);
 		return sudoku.getValues();
+	}
+
+	private boolean solveSudoku(int regionIndex, int position, int[][] solution) {
+		if (regionIndex == sudoku.num_regions) {
+			return true;
+		}
+		Region currentRegion = sudoku.getRegion(regionIndex);
+		// col, row, solution
+		// for num in range region
+		//is valid and is iin region
+		//update position
+		//recursively call solve sudoku
+		// after recursive call clear value
+		//return false after loop
+
+		//is valid = is the number in region already, and touching
+		Cell cell = currentRegion.getCells()[position];
+		int row = cell.getRow();
+		int col = cell.getColumn();
+		if (sudoku.getValue(row, col) != -1){
+			int nextRegion = (position == currentRegion.num_cells - 1) ? regionIndex + 1 : regionIndex;
+				int nextPosition = (position == currentRegion.num_cells -1) ? 0 : position + 1;
+
+				if (solveSudoku(nextRegion, nextPosition, solution)){
+					return true;
+				}
+		}
+		for(int i = 1; i <= currentRegion.num_cells; i++){
+			if (sudoku.getValue(row, col) == -1 && isValidMove(row, col, i, currentRegion)){
+				solution[row][col] = i;
+				int nextRegion = (position == currentRegion.num_cells - 1) ? regionIndex + 1 : regionIndex;
+				int nextPosition = (position == currentRegion.num_cells -1) ? 0 : position + 1;
+
+				if (solveSudoku(nextRegion, nextPosition, solution)){
+					return true;
+				}
+	
+				solution[row][col] = -1;
+			}
+		}
+		return false;
+	}
+
+	private boolean isValidMove(int row, int col, int num, Region currentRegion){
+		//checking if number in region already
+		for(Cell cell: currentRegion.getCells()){
+			if(sudoku.board_values[cell.row][cell.column] == num){
+				return false;
+			}
+		}
+
+		//checking if touching
+		int[] changeRow = {-1, -1, -1, 0, 0, 1, 1, 1};
+		int[] changeColumn = {-1, 0, 1, -1, 1, -1, 0, 1};
+		for (int i = 0; i < changeRow.length; i++) {
+			int currRow = row + changeRow[i];
+			int currColumn = col + changeColumn[i];
+			if(currRow >= 0 && currColumn >= 0 && currRow < sudoku.num_rows && currColumn < sudoku.num_columns && sudoku.board_values[currRow][currColumn]==num){
+				return false;
+			}
+		}
+		
+
+		//passes everything
+		return true;
 	}
 
 	
