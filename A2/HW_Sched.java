@@ -23,8 +23,6 @@ public class HW_Sched {
 	 * that will be done at time i.
 	 */
 	public int[] SelectAssignments() {
-		//TODO Implement this
-		
 		//Sort assignments
 		//Order will depend on how compare function is implemented
 		Collections.sort(Assignments, new Assignment());
@@ -36,24 +34,15 @@ public class HW_Sched {
 		for (int i=0; i < homeworkPlan.length; ++i) {
 			homeworkPlan[i] = -1;
 		}
-
-		int weightSum = 0; // sum of weights
-        int i;
-        for (i=0; i<Assignments.size(); i++){
-            Assignment a = Assignments.get(i);
-            int j;
-            for (j=a.deadline-1; j>=0; j--) { // place assignment at latest hour possible
-                if (homeworkPlan[j] == -1) {
-                    homeworkPlan[j] = a.number;
-                    break;
-                }
-            }
-        }
+		for(Assignment assignment: Assignments){
+			for(int j = assignment.deadline-1; j >= 0; j--){
+				if(homeworkPlan[j]==-1){
+					homeworkPlan[j] = assignment.number;
+					break;
+				}
+			}
+		}
 		
 		return homeworkPlan;
 	}
 }
-	
-
-
-
