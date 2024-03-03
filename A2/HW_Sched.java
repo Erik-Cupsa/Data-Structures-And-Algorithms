@@ -36,7 +36,19 @@ public class HW_Sched {
 		for (int i=0; i < homeworkPlan.length; ++i) {
 			homeworkPlan[i] = -1;
 		}
-	
+
+		int weightSum = 0; // sum of weights
+        int i;
+        for (i=0; i<Assignments.size(); i++){
+            Assignment a = Assignments.get(i);
+            int j;
+            for (j=a.deadline-1; j>=0; j--) { // place assignment at latest hour possible
+                if (homeworkPlan[j] == -1) {
+                    homeworkPlan[j] = a.number;
+                    break;
+                }
+            }
+        }
 		
 		return homeworkPlan;
 	}
